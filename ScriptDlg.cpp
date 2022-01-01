@@ -43,11 +43,14 @@ void CScriptDlg::UpdateSaveButtonText()
   m_saveButton.SetWindowText(buttonText);
 }
 
-void CScriptDlg::SaveScript()
+void CScriptDlg::SaveScript(CString const & scriptText)
 {
-  CStringA asciiScript(m_scriptText);
-  CStdioFile file(m_lastFileName, CFile::modeWrite|CFile::typeBinary|CFile::modeCreate);
-  file.Write(asciiScript.GetString(), asciiScript.GetLength());
+  if (!m_lastFileName.IsEmpty())
+  {
+    CStringA asciiScript(scriptText);
+    CStdioFile file(m_lastFileName, CFile::modeWrite | CFile::typeBinary | CFile::modeCreate);
+    file.Write(asciiScript.GetString(), asciiScript.GetLength());
+  }
 }
 
 void CScriptDlg::LoadScript()
@@ -97,6 +100,7 @@ void CScriptDlg::OnBnClickedOpen()
     m_lastFileName = fileDialog.GetPathName();
     LoadScript();
     UpdateSaveButtonText();
+    UpdateData(FALSE);
   }
 }
 
@@ -127,10 +131,7 @@ void CScriptDlg::OnBnClickedSave()
     }
   }
 
-  if (!m_lastFileName.IsEmpty())
-  {
-    SaveScript();
-  }
+  SaveScript(m_scriptText);
 }
 
 
@@ -154,7 +155,7 @@ void CScriptDlg::OnBnClickedSaveAs()
   if (IDOK == fileDialog.DoModal())
   {
     m_lastFileName = fileDialog.GetPathName();
-    SaveScript();
+    SaveScript(m_scriptText);
     UpdateSaveButtonText();
   }
 }
@@ -180,4 +181,15 @@ void CScriptDlg::OnCancel()
   UpdateData();
 
   CDialogEx::OnCancel();
+}
+
+
+BOOL CScriptDlg::OnInitDialog()
+{
+  CDialogEx::OnInitDialog();
+
+  UpdateSaveButtonText();
+
+  return TRUE;  // return TRUE unless you set the focus to a control
+                // EXCEPTION: OCX Property Pages should return FALSE
 }

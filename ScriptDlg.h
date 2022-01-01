@@ -21,7 +21,7 @@ public:
         static CString m_lastFileName;
 
         void UpdateSaveButtonText();
-        void SaveScript();
+        static void SaveScript(CString const & scriptText);
         void LoadScript();
 
 protected:
@@ -37,4 +37,5 @@ public:
   virtual void OnOK();
   virtual void OnCancel();
   CButton m_saveButton;
+  virtual BOOL OnInitDialog();
 };

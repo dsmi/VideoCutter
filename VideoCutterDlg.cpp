@@ -420,8 +420,6 @@ void CVideoCutterDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CVideoCutterDlg::OnClose()
 {
-  KillTimer(1);
-
   CDialogEx::OnClose();
 }
 
@@ -540,6 +538,8 @@ void CVideoCutterDlg::OnOK()
 {
   KillTimer(1);
 
+  CScriptDlg::SaveScript(m_script);
+
   CDialogEx::OnOK();
 }
 
@@ -547,6 +547,8 @@ void CVideoCutterDlg::OnOK()
 void CVideoCutterDlg::OnCancel()
 {
   KillTimer(1);
+
+  CScriptDlg::SaveScript(m_script);
 
   CDialogEx::OnCancel();
 }
