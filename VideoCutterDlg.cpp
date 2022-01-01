@@ -67,6 +67,15 @@ CVideoCutterDlg::CVideoCutterDlg(CWnd* pParent /*=nullptr*/)
   , m_captionText(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
+  m_script = CString("# Scale to 1080p, print text\r\n"
+          "x $rcs = 'scale=1920:1080';\r\n"
+        "x $fnt = \"fontfile=calibri.ttf:fontcolor=white:fontsize=42\";\r\n"
+        "x $tx = 50;\r\n"
+        "x $ty = 950;\r\n"
+        "x $dtxt = \'drawtext=text=$caption:x=$tx:y=$ty:$fnt\';\r\n"
+        "x $copts{ '22.flt' } = \"-vf \\\"$rcs,$dtxt\\\"\"\r\n"
+        "\r\n");
 }
 
 void CVideoCutterDlg::DoDataExchange(CDataExchange* pDX)
